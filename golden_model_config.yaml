@@ -1,8 +1,8 @@
 name: osc_adj
-#filepath: ./osc_adj_generated.sv
 filepath: mgenero_build/final.sv
 template: OscillatorTemplate
 
+# pins
 pin:
     vss:
         direction: input
@@ -35,4 +35,8 @@ template_pins:
 extras:
     approx_frequency: 2e9
 
+# Location of test configuration information
 test_config_file: ncsim.yaml
+
+# mGenero configuration file
+mgenero: ./mgenero_config.yaml
