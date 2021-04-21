@@ -1,0 +1,30 @@
+# To activate python virtual enviroment (if you've created it)
+source ~/fixture_venv/bin/activate
+
+# To generate config
+python -m fixture.config osc_adj.spice OscillatorTemplate
+firefox osc_adj_config_helper.html &
+
+# To run analysis
+time python -m fixture.run osc_adj_config.yaml 
+
+# To create functional model
+cd mgenero_build
+python generate.py
+
+# To run functional model analysis
+time python -m fixture.run model_config.yaml
+
+
+# to run handmade testbench
+xmverilog +access+r osc_adj_tb.sv
+
+
+
+# things for caddy
+
+# to load dve
+module load vcs
+
+# to load ncverilog and irun
+module load xcelium
