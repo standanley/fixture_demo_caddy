@@ -1,0 +1,42 @@
+name: osc_adj
+filepath: osc_adj.spice
+template: OscillatorTemplate
+
+# pins
+pin:
+    vss:
+        direction: input
+        datatype: real
+        value: 0
+
+    vdd:
+        direction: input
+        datatype: real
+        value: 1.8
+
+    out:
+        direction: output
+        datatype: bit
+
+    ctrl0:
+        direction: input
+        datatype: binary_analog
+
+    ctrl1:
+        direction: input
+        datatype: binary_analog
+
+
+# Mapping between template and user pins
+template_pins:
+    out: out
+
+# Additional template-required information
+extras:
+    approx_frequency: 2e9
+
+# Location of test configuration information
+test_config_file: ngspice.yaml
+
+# mGenero configuration file
+mgenero: ./mgenero_config.yaml

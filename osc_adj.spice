@@ -1,0 +1,61 @@
+**.subckt osc_adj vss vdd out ctrl1 ctrl0
+
+.lib ~/share/sky130_fd_pr_ngspice/models/sky130.lib.spice tt
+
+.subckt osc_adj vss vdd out ctrl0 ctrl1
+
+*.iopin vss
+*.iopin vdd
+*.iopin out
+*.ipin ctrl1
+*.ipin ctrl0
+x1 ctrl net1 osc3 vdd vss inverter_adj
+x2 ctrl net2 net1 vdd vss inverter_adj
+x3 ctrl osc3 net2 vdd vss inverter_adj
+XM1 ctrl ctrl0 vss vss sky130_fd_pr__nfet_01v8 L=.15 W=1 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=1 m=1 
+XM2 ctrl ctrl1 vss vss sky130_fd_pr__nfet_01v8 L=.15 W=1 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=2 m=2 
+
+* NOTE I manually changed this transistory to have mult=1 m=1 instead of mult=4 m=4
+XM3 ctrl vdd vss vss sky130_fd_pr__nfet_01v8 L=.15 W=1 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=1 m=1 
+
+XM4 ctrl ctrl vdd vdd sky130_fd_pr__pfet_01v8 L=.15 W=1 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=8 m=8 
+XM5 out osc3 vdd vdd sky130_fd_pr__pfet_01v8 L=.15 W=1 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=4 m=4 
+XM6 out osc3 vss vss sky130_fd_pr__nfet_01v8 L=.15 W=1 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=2 m=2 
+**.ends
+
+.ends
+
+* expanding   symbol:  /home/users/dstanley/EE272B/xschem_tests/inverter_adj.sym # of pins=5
+* sym_path: /home/users/dstanley/EE272B/xschem_tests/inverter_adj.sym
+* sch_path: /home/users/dstanley/EE272B/xschem_tests/inverter_adj.sch
+.subckt inverter_adj  ctrl in out vdd vss
+*.iopin vss
+*.iopin vdd
+*.iopin out
+*.ipin in
+*.ipin ctrl
+XM1 out in vss vss sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W'
++ sa=0 sb=0 sd=0 mult=1 m=1 
+XM2 out in vdd_internal vdd sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad='int((nf+1)/2) * W/nf * 0.29'
++ as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)'
++ nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1 m=1 
+XM3 vdd_internal ctrl vdd vdd sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad='int((nf+1)/2) * W/nf * 0.29'
++ as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)'
++ nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1 m=1 
+.ends
+
+** flattened .save nodes
+.end
